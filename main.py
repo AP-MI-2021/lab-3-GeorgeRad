@@ -1,176 +1,83 @@
-# Functia de calcul pentru problema 5
-# Verificam daca un element este palindrom sau nu
-def is_palindrome(n):
+# Problema 6
+
+# Functie de calcul pentru problema 6
+def all_elements_div_k(lista, k):
     """
-    Verificam daca un numar intreg este palindrom
-    :param n: numar intreg
-    :return: True sau False
-    """
-    clone_n = n
-    oglindit = 0
-    while clone_n > 0:
-        oglindit = oglindit * 10 + clone_n % 10
-        clone_n = clone_n // 10
-    if n == oglindit:
-        return True
-    return False
-
-
-# Functia de test pentru is_palindrome
-def test_is_palindrome():
-    assert is_palindrome(1221) is True
-    assert is_palindrome(13431) is True
-    assert is_palindrome(66466) is True
-    assert is_palindrome(123) is False
-    assert is_palindrome(64) is False
-
-
-# Functie de calcul pentru problema 5
-# Determinam daca o lista data este formata doar din palindroame
-def all_list_is_formed_with_palindromes(lista):
-    """
-    Verificam daca o lista este formata doar din palindroame
-    :param lista: lista de numere intregi
+    Verificam daca o lista data are toate elementele divizibile cu k
+    :param lista: o lista de numere intregi
+    :param k: numar intreg
     :return: True sau False
     """
     for i in lista:
-        if is_palindrome(i) is False:
+        if i % k != 0:
             return False
     return True
 
+# Functia de test pentru functia all_elements_div_k
+def test_all_elements_div_k():
+    assert all_elements_div_k([24, 12, 36], 2) is True
+    assert all_elements_div_k([33, 44, 55], 11) is True
+    assert all_elements_div_k([12, 34, 55, 69], 2) is False
 
-# Functie de test pentru all_list_is_formed_with_palindromes
-def test_all_list_is_formed_with_palindromes():
-    assert all_list_is_formed_with_palindromes([121, 232, 343]) is True
-    assert all_list_is_formed_with_palindromes([646, 132, 2321]) is False
-    assert all_list_is_formed_with_palindromes([134234, 2132, 1223]) is False
-
-# Problema 5 (Functie de calcul)
-# Functia care determina cea mai lunga subsecventa de palindroame dintr-o lista
-def get_longest_all_palindromes(lista):
+# Functia care cauta cea mai lunga secventa divizibila cu k
+def get_longest_div_k(lst, k):
     """
-    Cautarea celei mai lungi secvente de numere care sunt palindroame
-    :param lista: lista de numere intregi
-    :return: secventa de numere intregi
+    Cautam cea mai lunga secventa de numere divizibile cu k
+    :param lst: o lista de numere intregi
+    :param k: numar intreg
+    :return: lista subsecventa_maxima formata din numere intregi
     """
-    subsecventa_maxima = []
-    lungime_lista = len(lista)
-    for i in range(lungime_lista):
-        for j in range(i, lungime_lista):
-            if all_list_is_formed_with_palindromes(lista[i:j + 1]) and len(lista[i: j + 1]) > len(subsecventa_maxima):
-                subsecventa_maxima = lista[i: j + 1]
-    return subsecventa_maxima
+    secventa_maxima = []
+    for i in range(len(lst)):
+        for j in range(i, len(lst)):
+            if all_elements_div_k(lst[i: j + 1], k) is True and len(lst[i: j + 1]) > len(secventa_maxima):
+                secventa_maxima = lst[i: j + 1]
+    return secventa_maxima
 
 
-# Functia de test pentru get_longest_all_palindromes
-def test_get_longest_all_palindromes():
-    assert get_longest_all_palindromes([1221, 1441, 45, 23]) == [1221, 1441]
-    assert get_longest_all_palindromes([64, 23, 34, 96, 13]) == []
-    assert get_longest_all_palindromes([1221, 1441, 345, 1551, 1661, 1771, 1991]) == [1551, 1661, 1771, 1991]
-
-# Problema13
-# Functie de calcul
-# Functie care verifica daca o lista este compusa din numere formate din cifre prime
-# Ne va ajuta in cautarea celei mai lungi subsecvente de numere formate doar din cifre prime
-def list_is_formed_with_primes_digits(lista):
-    """
-    Verificam daca o lista data contine doar elemente formate din numere prime
-    :param lista: lista de numere intregi
-    :return: True sau False
-    """
-    for i in lista:
-        while i > 0:
-            if i % 10 != 2 and i % 10 != 3 and i % 10 != 5 and i % 10 != 7:
-                return False
-            i = i // 10
-    return True
-
-# Functia de test pentru list_is_formed_with_primes_digits
-def test_list_is_formed_with_primes_digits():
-    assert list_is_formed_with_primes_digits([235, 357]) is True
-    assert list_is_formed_with_primes_digits([223, 332, 1223]) is False
-    assert list_is_formed_with_primes_digits([1223, 23123, 32, 67]) is False
-
-# Problema 13
-# Functie de calcul
-# Functia care cauta cea mai lunga subsecventa de numere formate din cifre prime
-def get_longest_prime_digits(lista):
-    """
-    Cautam cea mai lunga secventa compusa din numere formate din cifre prime
-    :param lista: lista de numere intregi
-    :return: cea mai lunga secventa, prin lista "subsecventa_maxima"
-    """
-    subsecventa_maxima = []
-    lungime_lista = len(lista)
-    for i in range(lungime_lista):
-        for j in range(i, lungime_lista):
-            if list_is_formed_with_primes_digits(lista[i: j + 1]) is True and len(lista[i: j + 1]) > len(subsecventa_maxima):
-                subsecventa_maxima = lista[i: j + 1]
-    return subsecventa_maxima
+# Functia de test pentru functia get_longest_div_k
+def test_get_longest_div_k():
+    assert get_longest_div_k([4, 6, 5, 8, 10, 12], 2) == [8, 10, 12]
+    assert get_longest_div_k([1, 2, 4, 8, 7, 5], 2) == [1, 2, 4, 8]
+    assert get_longest_div_k([23, 23], 8) == []
 
 
-# Functia de test pentru get_longest_prime_digits
-def test_get_longest_prime_digits():
-    assert get_longest_prime_digits([22, 33, 12, 77, 55, 33]) == [77, 55, 33]
-    assert get_longest_prime_digits([22, 33, 12, 11, 34, 55, 779, 29573]) == [22, 33]
-    assert get_longest_prime_digits([123, 234, 345, 567]) == []
+# Functie care testeaza toate testele
+def test_all():
+    test_all_elements_div_k()
+    test_get_longest_div_k()
 
-
-# Functia care va test toate functiile mele
-def test_all_functions():
-    test_is_palindrome()
-    test_all_list_is_formed_with_palindromes()
-    test_get_longest_all_palindromes()
-    test_list_is_formed_with_primes_digits()
-    test_get_longest_prime_digits()
-
-test_all_functions() # Testam toate functiile
-
+# Meniul Programului
 def menu():
-    print("5. Cautarea celei mai lungi subsecvente de numere care sunt palindroame")
-    print("13. Cauta cea mai lunga subsecventa de numere formate doar din cifre prime")
+    print("6. Cauta cea mai lunga secventa de numere divizibile ,dintr-o lista data, cu un k dat ")
 
 
+# Functie de citire a unei liste
 def read_the_list():
-    """
-    Functie pentru citirea unei liste
-    :return: lista de numere intregi citita
-    """
-    n = int(input("Introduceti numarul elementelor listei: "))
-    print("(Introduceti elementele unu sub celalalt cu Enter)")
-    lista = []
-    number = 0
-    for i in range(n):
-        number = int(input())
-        lista.append(number)
-    return lista
+    l = []
+    givenString = input("Dati lista, cu elemente separate prin virgula: ")
+    numbersAsString = givenString.split(",")
+    for x in numbersAsString:
+        l.append(int(x))
+    return l
 
 
-menu()
-optiune = int(input("Introduceti optiunea dumneavoastra: "))
-ok = True
-while ok:
-    lista = []
-    if optiune == 5:
-        lista = read_the_list()
-        print("Cea mai lunga secventa de palindroame este: ", get_longest_all_palindromes(lista))
-    elif optiune == 13:
-        lista = read_the_list()
-        print("Cea mai lunga secventa de numere compuse din cifre prime este: ", get_longest_prime_digits(lista))
-    print()
-    print("Doriti sa mai introduceti optiuni?")
-    raspuns = input("Raspundeti cu DA sau NU ")
-    if raspuns == "NU":
-        ok = False
-    elif raspuns == "DA":
-        print()
-        print()
-        menu()
-        print()
-        optiune = int(input("Introduceti optiunea dumneavoastra: "))
+def main():
+    lst = []
+    menu()
+    optiune = int(input("Introduceti optiunea dumneavoastra: "))
+    while True:
+        if optiune == 6:
+            k = int(input("Introduceti k = "))
+            lst = read_the_list()
+            print(get_longest_div_k(lst, k))
+        raspuns = input("Doriti sa mai introduceti optiuni? ")
+        if raspuns == "DA" or raspuns == "da":
+            print()
+            menu()
+            optiune = int(input("Introduceti optiunea dumneavoastra: "))
+        elif raspuns == "NU" or raspuns == "nu":
+            break
 
-
-
-
-
+main()
 
